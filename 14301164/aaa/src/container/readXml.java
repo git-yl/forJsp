@@ -1,5 +1,11 @@
 package container;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,21 +14,17 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
 public class readXml {
 	
 	static ArrayList<String> files;
 	static ArrayList<String[]> servlets;
+	static String test;
 	
 	public static boolean ifServlet(String uri){
+		test = "aa";
 		boolean ifServlet = false;
 		try{
-		//ÅĞ¶ÏËùĞèµÄuriÊÇ·ñÎªservlet
+		//åˆ¤æ–­æ˜¯å¦servlet
 		for(int i = 0; i < servlets.size(); i++){
 			if(servlets.get(i)[0].equals(uri.substring(uri.lastIndexOf("/") + 1))){
 				ifServlet = true;
@@ -36,12 +38,12 @@ public class readXml {
 	}
 	
 	public static void readX() throws ParserConfigurationException, SAXException, IOException{
-		//½«xmlÎÄ¼ş¶ÁÈ¡ÎªdocumentÀàĞÍ
+		//ï¿½ï¿½xmlï¿½Ä¼ï¿½ï¿½ï¿½È¡Îªdocumentï¿½ï¿½ï¿½ï¿½
         DocumentBuilder db=DocumentBuilderFactory.newInstance().newDocumentBuilder();
 		File directory = new File("");
         Document document=db.parse(new File(directory.getCanonicalPath()+"\\src\\web.xml"));
  
-        //¸ù¾İ²»Í¬±äÁ¿ÃûµÃµ½ÏàÓ¦µÄÊôĞÔÖµ
+        //ï¿½ï¿½ï¿½İ²ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
         Element root=document.getDocumentElement() ;
         NodeList list=root.getElementsByTagName("welcome-file-list");
         files = readFiles(list);       
@@ -50,22 +52,22 @@ public class readXml {
         servlets = readServlets(list2,list3);
 	}
 	
-	//¶ÁÈ¡servlet¼°ÆäÏà¹ØÊôĞÔ
+	//ï¿½ï¿½È¡servletï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public static ArrayList<String[]> readServlets(NodeList n1, NodeList n2){
 		ArrayList<String[]> servlets = new ArrayList<String[]>();
 		for(int i = 0; i < n1.getLength(); i++){
 			Node node = n1.item(i);
 			Node node2 = n2.item(i);
-			//×Ó½Úµã
+			//ï¿½Ó½Úµï¿½
 			NodeList childList = node.getChildNodes();
 			NodeList childList2 = node2.getChildNodes();
         	String[] a = new String[4];
 			for(int x=0;x<childList.getLength();x++){
 				Node childNode=childList.item(x);
 				Node childNode2=childList2.item(x);
-				//ÅĞ¶ÏÈ¡³öµÄÖµÊÇ·ñÊôÓÚElementÔªËØ,Ä¿µÄÊÇ¹ıÂËµô
+				//ï¿½Ğ¶ï¿½È¡ï¿½ï¿½ï¿½ï¿½Öµï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ElementÔªï¿½ï¿½,Ä¿ï¿½ï¿½ï¿½Ç¹ï¿½ï¿½Ëµï¿½
 	            if(childNode instanceof Element){
-	            	//µÃµ½×Ó½ÚµãµÄÃû×Ö
+	            	//ï¿½Ãµï¿½ï¿½Ó½Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	            	String childNodeName=childNode.getNodeName();
 	            	if(childNodeName.equals("servlet-name")){
 	            		a[0] = childNode.getTextContent();
@@ -75,7 +77,7 @@ public class readXml {
 	            	}
 	            }
 	            if(childNode2 instanceof Element){
-	            	//µÃµ½×Ó½ÚµãµÄÃû×Ö
+	            	//ï¿½Ãµï¿½ï¿½Ó½Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	            	String childNodeName=childNode2.getNodeName();
 	            	if(childNodeName.equals("servlet-name")){
 	            		a[2] = childNode2.getTextContent();
@@ -90,17 +92,17 @@ public class readXml {
 		return servlets;
     }
 	
-	//¶ÁÈ¡ÎÄ¼şÃû
+	//ï¿½ï¿½È¡ï¿½Ä¼ï¿½ï¿½ï¿½
 	public static ArrayList<String> readFiles(NodeList n2){
 		ArrayList<String> files = new ArrayList<String>();
 		Node n = n2.item(0);
-		//×Ó½Úµã
+		//ï¿½Ó½Úµï¿½
 		NodeList childList = n.getChildNodes();
 		for(int x=0;x<childList.getLength();x++){
 			Node childNode=childList.item(x);
-			//ÅĞ¶ÏÈ¡³öµÄÖµÊÇ·ñÊôÓÚElementÔªËØ,Ä¿µÄÊÇ¹ıÂËµô
+			//ï¿½Ğ¶ï¿½È¡ï¿½ï¿½ï¿½ï¿½Öµï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ElementÔªï¿½ï¿½,Ä¿ï¿½ï¿½ï¿½Ç¹ï¿½ï¿½Ëµï¿½
             if(childNode instanceof Element){
-            	//µÃµ½×Ó½ÚµãµÄÃû×Ö
+            	//ï¿½Ãµï¿½ï¿½Ó½Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             	String childNodeName=childNode.getNodeName();
             	if(childNodeName.equals("welcome-file")){
             		files.add(childNode.getTextContent());
@@ -111,7 +113,7 @@ public class readXml {
     }
 
 	public static String getPath(String servletname) {
-		//¸ù¾İservletÃû³Æ»ñµÃÏàÓ¦Â·¾¶
+		//ï¿½ï¿½ï¿½ï¿½servletï¿½ï¿½ï¿½Æ»ï¿½ï¿½ï¿½ï¿½Ó¦Â·ï¿½ï¿½
 		String path = null;
 		for(int i = 0; i < servlets.size(); i++){
 			if(servlets.get(i)[0].equals(servletname)){
