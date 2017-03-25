@@ -21,7 +21,7 @@ public class readXml {
 	static String test;
 	
 	public static boolean ifServlet(String uri){
-		test = "aa";
+		test = "bb";
 		boolean ifServlet = false;
 		try{
 		//判断是否servlet
